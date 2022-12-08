@@ -1,0 +1,16 @@
+/* src/page/main.css */
+
+.Mains {
+    display:flex;
+    float :right;
+    
+    margin-top: 100px;
+
+    height: 300px;  
+    /* grid-template-columns: 60% 40%; */
+}
+
+/* #Mains-left { border-right: solid 1px #aabbaa; } */
+/* #Mains-right { border-left: solid 1px #aabbaa; } */
+
+
