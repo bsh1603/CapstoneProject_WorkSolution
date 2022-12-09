@@ -37,9 +37,9 @@ public class StockController {
     }
 
     //팀 별 재고 수정하는 API
-    @PostMapping(value = "/api/stock/update/{team_id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public String stock_update(@RequestBody @Valid StockUpdateDto stockUpdateDto, @PathVariable("team_id") Long team_id){
-        stockService.updateStock(stockUpdateDto, team_id);
+    @PostMapping(value = "/api/stock/update/{stock_id}")
+    public String stock_update(@RequestBody @Valid StockUpdateDto stockUpdateDto, @PathVariable("stock_id") Long stock_id){
+        stockService.updateStock(stockUpdateDto, stock_id);
         return "수정 완료";
     }
 

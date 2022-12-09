@@ -4,6 +4,7 @@ import Sidebar from "../components/Sidebar";
 import WorkChart from "../components/WorkChart";
 import BarChart from "../components/BarChart";
 import WorkDayChart from "../components/WorkDayChart"
+import PayMonthBarChart from "../components/PayMonthBarChart"
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
@@ -174,7 +175,7 @@ const Main = () => {
         <Grid container spacing = {2}>
         <Grid xs = {5.5}>
         <GraphWrapper>
-            <WorkChart />
+            <PayMonthBarChart />
         </GraphWrapper>
         </Grid>
         <Grid xs = {5.5}>

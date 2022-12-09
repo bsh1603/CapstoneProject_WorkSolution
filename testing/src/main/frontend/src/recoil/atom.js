@@ -69,3 +69,9 @@ export const doughnutState = atom({
   default: {},
   effects_UNSTABLE: [persistAtom],
 });
+
+export const barPayState = atom({
+  key : "barPayState",
+  default: {},
+  effects_UNSTABLE: [persistAtom],
+});

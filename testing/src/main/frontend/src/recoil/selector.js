@@ -1,6 +1,6 @@
 import { selector } from "recoil";
 import { workState } from "./atom";
-import { chartState, userState, barState, doughnutState } from "./atom";
+import { chartState, userState, barState, doughnutState, barPayState } from "./atom";
 import axios from "axios";
 
 const getWorkTime = (workTime) => {
@@ -154,5 +154,32 @@ export const memberDataState = selector({
     const memberData = response.data;
 
     return memberData;
+  },
+});
+
+export const barPayDataState = selector({
+  key: "barPayDataState",
+  get: async ({ get }) => {
+    const user = get(userState);
+    const response = await axios.get(`/api/work/pay/month/${user.id}`);
+    const barPayState = response.data;
+    const labels = [...Object.keys(barPayState)];
+    labels.sort();
+    //    labels.push("")
+    const values = [...labels.map((key) => barPayState[key])];
+
+    const data = {
+      labels: labels,
+      datasets: [
+        {
+          label: "월별 급여",
+          data: values,
+          fill: true,
+          backgroundColor: "rgba(255, 99, 132, 0.5)",
+          borderColor: "rgba(75,192,192,1)",
+        },
+      ],
+    };
+    return data;
   },
 });

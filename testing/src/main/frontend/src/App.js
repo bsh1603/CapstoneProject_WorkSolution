@@ -28,7 +28,7 @@ function App() {
 
   return (
       <Routes>
-        <Route path="/" element={<Profile />} />
+        <Route path="/" element={<Main />} />
         <Route path="/registermanager" element={<RegisterManager />} />
         <Route path="/registerworker" element={<RegisterWorker />} />
         <Route path="/login" element={<Login />} />
@@ -36,7 +36,7 @@ function App() {
         <Route path="/member" element={<Member />} />
         <Route path="/stock" element={<Stock />} />
         <Route path="/chatsetting" element={<ChatSetting />} />
-        <Route path="/profile" element={<Main />} />
+        <Route path="/profile" element={<Profile />} />
         <Route path="/profile/modify" element={<ProfileModify />} />
         <Route path="/stock/modify" element={<StockModify />} />
       </Routes>

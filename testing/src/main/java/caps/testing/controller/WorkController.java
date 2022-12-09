@@ -109,4 +109,31 @@ public class WorkController {
 
         return map;
     }
+
+    // 월별 급여 계산
+    @GetMapping("/api/work/pay/month/{member_id}")
+    public Map<String, Long> get_month_pay(@PathVariable @Valid Long member_id){
+        List<String> workDateForChart = workRepository.findWorkDateForChart(member_id);
+        List<String> workMonthDateList = new ArrayList<>();
+        for (int i = 0; i < workDateForChart.size(); i++) {
+            workMonthDateList.add(workDateForChart.get(i).substring(5,7));
+        }
+        List<Long> workTimeForChart = workRepository.findWorkTimeForChart(member_id);
+        List<Long> workTimePayment = new ArrayList<>();
+        for (int i = 0; i < workTimeForChart.size(); i++) {
+            Long pay = workTimeForChart.get(i) * 9160 / 60;
+            Long ten = (pay / 10) * 10;
+            workTimePayment.add(ten);
+        }
+        Map<String, Long> map = new LinkedHashMap<>();
+        for (int i = 0; i < workMonthDateList.size(); i++) {
+            if(map.containsKey(workMonthDateList.get(i))){
+                map.put(workMonthDateList.get(i), map.get(workMonthDateList.get(i)) + workTimePayment.get(i));
+            }
+            else{
+                map.put(workMonthDateList.get(i), workTimePayment.get(i));
+            }
+        }
+        return map;
+    }
 }
