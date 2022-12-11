@@ -53,7 +53,7 @@ public interface WorkRepository extends JpaRepository<Work, Long> {
     void findWorkDate(@Param("work_id") Long work_id);
 
     @Modifying
-    @Query(value = "update work w set w.work_day_korean = (substr(\'일월화수목금\', dayofweek(w.work_start_time), 1))", nativeQuery = true)
+    @Query(value = "update work w set w.work_day_korean = (substr(\'일월화수목금토\', dayofweek(w.work_start_time), 1))", nativeQuery = true)
     void updateWorkDayKorean(@Param("work_start_time") Timestamp work_start_time, @Param("work_id") Long work_id);
 
     @Query(value = "select w.work_day_korean from work w where w.member_id = ?1", nativeQuery = true)

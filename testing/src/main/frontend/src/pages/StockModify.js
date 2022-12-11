@@ -36,7 +36,8 @@ const ProfileModify = () => {
         .then(function (response) {
             // 응답 처리하기
             console.log(stock);
-            alert("재고 추가 성공");
+            alert("재고 추가 성공")
+            window.location.replace("/stock");
         })
         .catch(function (error) {
             console.log(error);

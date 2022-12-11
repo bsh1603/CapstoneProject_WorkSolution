@@ -33,10 +33,6 @@ const ChatSetting = () => {
   return (
     <>
 
-      <Header />
-
-      <Sidebar />
-
       <div className="Mains">
         <ChatRoom sender_name = {user.name} team_id = {user.teamId} team_name ={member[0].team_name}/></div>
 

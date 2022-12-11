@@ -18,15 +18,15 @@ import { useRecoilValue, useSetRecoilState } from "recoil";
 import { barState, userState } from "../recoil/atom";
 import { barDataState } from "../recoil/selector";
 
-const BarWrapper = styled.div`
-    width : 650px;
-    height : 800px;
-`;
-
+const ChartWrapper = styled.div`
+    width : 400px;
+    height : 200px;
+`
 const BarChart = () => {
   const data = useRecoilValue(barDataState);
 
   const chartRef = useRef(null);
+
   ChartJS.register(
     CategoryScale,
     LinearScale,
@@ -37,26 +37,18 @@ const BarChart = () => {
   );
 
 
-//export const options = {
-//  responsive: true,
-//  plugins: {
-//    legend: {
-//      position: 'top' as const,
-//    },
-//    title: {
-//      display: true,
-//      text: 'Chart.js Bar Chart',
-//    },
-//  },
-//};
-
   return (
-    <BarWrapper>
+    <ChartWrapper>
+      <Bar
+        data={data}
+        ref={chartRef}
 
-      <Bar data={data} ref={chartRef} />
-
-    </BarWrapper>
+      />
+    </ChartWrapper>
   );
 };
 
 export default BarChart;
+
+
+//styled={{position : "relative", height: "700px"}}

@@ -1,11 +1,15 @@
 import React from "react";
 import styled from "styled-components";
 import Button from "@mui/material/Button";
+import IconButton from "@mui/material/IconButton";
+import MailIcon from "@mui/icons-material/Mail";
+import Badge from "@mui/material/Badge";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { userState } from "../recoil/atom";
+import { userState, clickState } from "../recoil/atom";
 import { useRecoilState } from "recoil";
 import { useEffect } from "react";
+import ChatSetting from "../pages/ChatSetting";
 
 // 상단 고정, 그림자
 const Positioner = styled.div`
@@ -26,7 +30,7 @@ const WhiteBackground = styled.div`
 
 // 해더의 내용
 const HeaderContents = styled.div`
-  width: 1200px;
+  width: 1500px;
   height: 150px;
   display: flex;
   flex-direction: row;
@@ -45,7 +49,7 @@ const Logo = styled.button`
   cursor: pointer;
   font-size: 2rem;
   letter-spacing: 5px;
-  font-family: "Rajdhani";
+  font-family: "watermelonsalad";
 `;
 
 //커스텀 버튼
@@ -59,17 +63,7 @@ const Butt = styled.button`
   border-radius: 50px;
   cursor: pointer;
   font-size: 1rem;
-  font-family: "Rajdhani";
-`;
-
-const Welcome = styled.div`
-  position: relative;
-  right: 1rem;
-  text-align: center;
-  width: 180px;
-  height: 15px;
-  border-radius: 50px;
-  font-size: 1rem;
+  font-family: "watermelonsalad";
 `;
 
 // 중간 여백
@@ -87,29 +81,52 @@ const GradientBorder = styled.div`
   height: 3px;
 `;
 
+const Welcome = styled.div`
+  position: relative;
+  right: 1rem;
+  text-align: center;
+  width: 200px;
+  height: 15px;
+  border-radius: 50px;
+  font-size: 1rem;
+  font-family: "watermelonsalad";
+`;
+
 const Header = () => {
   const [user, setUser] = useRecoilState(userState);
   const navigate = useNavigate();
-
+  const [click, setClick] = useState(false);
   const handleLogOut = () => {
     localStorage.removeItem("recoil-persist");
     navigate("/login");
   };
 
   return (
-    <Positioner>
-      <WhiteBackground>
-        <HeaderContents>
-          <Logo onClick={() => navigate("/")}>ALBA 24</Logo>
-          <Spacer />
-          <Welcome>{user.name} 님 환영합니다.</Welcome>
-          <Butt variant="contained" onClick={handleLogOut}>
-            Log Out
-          </Butt>
-        </HeaderContents>
-      </WhiteBackground>
-      <GradientBorder />
-    </Positioner>
+    <>
+      <Positioner>
+        <WhiteBackground>
+          <HeaderContents>
+            <Logo onClick={() => navigate("/")}>ALBA 24</Logo>
+            <Spacer />
+            <Welcome>{user.name} 님 환영합니다.</Welcome>
+            <Butt variant="contained" onClick={handleLogOut}>
+              Log Out
+            </Butt>
+            <IconButton
+              size="large"
+              aria-label="show 4 new mails"
+              color="inherit"
+            >
+              <Badge badgeContent={0} color="error">
+                <MailIcon onClick={() => setClick((before)=>!before)} />
+              </Badge>
+            </IconButton>
+          </HeaderContents>
+        </WhiteBackground>
+        <GradientBorder />
+      </Positioner>
+      {click ? <ChatSetting click={click} /> : null}
+    </>
   );
 };
 

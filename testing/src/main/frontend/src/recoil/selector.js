@@ -2,6 +2,7 @@ import { selector } from "recoil";
 import { workState } from "./atom";
 import { chartState, userState, barState, doughnutState, barPayState } from "./atom";
 import axios from "axios";
+import moment from 'moment';
 
 const getWorkTime = (workTime) => {
   const [day, time] = workTime.split("T");
@@ -39,8 +40,8 @@ export const chartDataState = selector({
           label: "일별 일한 시간",
           data: values,
           fill: true,
-          backgroundColor: "rgba(75,192,192,0.2)",
-          borderColor: "rgba(75,192,192,1)",
+          backgroundColor: "rgba(75,192,192,0.6)",
+          borderColor: "rgba(75,192,192,0.6)",
         },
       ],
     };
@@ -66,7 +67,11 @@ export const barDataState = selector({
           label: "월별 일한 시간",
           data: values,
           fill: true,
-          backgroundColor: "rgba(255, 99, 132, 0.5)",
+          backgroundColor: [
+                        "rgba(255, 99, 132, 0.5)",
+                        'rgba(249, 177, 113, 0.7)',
+                        'rgba(255,206,86,0.8)',
+                        'rgba(153,98,255,0.7)'],
           borderColor: "rgba(75,192,192,1)",
         },
       ],
@@ -109,13 +114,13 @@ export const doughnutDataState = selector({
           data: values,
           fill: true,
           backgroundColor: [
-              'rgba(249, 113, 213, 1)',
-              'rgba(249, 177, 113, 1)',
-              'rgba(220, 249, 113, 1)',
-              'rgba(145, 249, 113, 1)',
-              'rgba(113, 240, 249, 1)',
-              'rgba(113, 156, 249, 1)',
-              'rgba(163, 113, 249, 1)',
+              'rgba(249, 113, 213, 0.7)',
+              'rgba(249, 177, 113, 0.7)',
+              'rgba(220, 249, 113, 0.7)',
+              'rgba(145, 249, 113, 0.7)',
+              'rgba(113, 240, 249, 0.7)',
+              'rgba(113, 156, 249, 0.7)',
+              'rgba(163, 113, 249, 0.7)',
 
           ],
           borderColor: [
@@ -175,11 +180,26 @@ export const barPayDataState = selector({
           label: "월별 급여",
           data: values,
           fill: true,
-          backgroundColor: "rgba(255, 99, 132, 0.5)",
+          backgroundColor: [
+                        'rgba(153,98,255,0.7)',
+                        'rgba(255,206,86,0.8)',
+                        "rgba(255, 99, 132, 0.5)",
+                        'rgba(249, 177, 113, 0.7)'],
           borderColor: "rgba(75,192,192,1)",
         },
       ],
     };
     return data;
   },
+});
+
+export const workingTimeState = selector({
+  key: "workingTimeState",
+  get: ({ get }) => {
+    const workArray = get(workState);
+    const today = moment().format('YYYY-MM-DD');
+    const todayWork = workArray.filter(work => work.work_date === today)[0];
+    const minutes = todayWork?.work_time || 0;
+    return minutes
+  }
 });

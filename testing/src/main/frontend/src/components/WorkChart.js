@@ -17,11 +17,9 @@ import { chartState, userState } from "../recoil/atom";
 import { chartDataState } from "../recoil/selector";
 
 const ChartWrapper = styled.div`
-    width : 650px;
-    height : 800px;
-`;
-
-
+    height : 200px;
+    width : 350px;
+`
 const WorkChart = () => {
   const data = useRecoilValue(chartDataState);
 
@@ -37,11 +35,10 @@ const WorkChart = () => {
   );
 
   return (
-        <ChartWrapper>
-
+    <ChartWrapper>
       <Line data={data} ref={chartRef} />
+    </ChartWrapper>
 
-        </ChartWrapper>
   );
 };
 

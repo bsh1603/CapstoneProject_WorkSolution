@@ -44,7 +44,12 @@ export const teamState = atom({
 export const stockState = atom({
    key : "stockState",
    default : [],
-})
+});
+
+export const clickState = atom({
+    key: "clickState",
+    default : false,
+});
 
 export const isWorkingState = atom({
   key: "isWorkingState",

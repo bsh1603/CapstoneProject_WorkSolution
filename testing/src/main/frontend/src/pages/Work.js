@@ -16,17 +16,14 @@ const Work = () => {
   const [work, setWork] = useRecoilState(workState);
   const [team, setTeam] = useRecoilState(teamState);
 
-    useEffect(() => {
+  useEffect(() => {
       axios.get(`/api/member/my/${user.id}`)
         .then((response) => {
           setWork(response.data.works);
-
-
+      console.log("work", work);
           // console.log('in callback',response.data.works)
       });
-
-    }, []);
-
+  }, []);
 //    useEffect(() => {
 //      axios.get(`api/member/myteam/${JSON.parse(localStorage.getItem("user")).id}`).then((response) => {
 //        setTeam(response.data);
@@ -52,9 +49,9 @@ const Work = () => {
 export default Work;
 
 const InputWrapper = styled.div`
-  position: sticky;
-  padding-top: 150px;
-  padding-left: 300px;
+  position: relative;
+  margin-top: 150px;
+  margin-left: 300px;
   max-width: 1000px;
   text-align: center;
 `;

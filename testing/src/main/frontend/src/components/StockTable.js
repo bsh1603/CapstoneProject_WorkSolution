@@ -17,7 +17,7 @@ import { teamState, userState, stockState } from "../recoil/atom";
 import { useState } from "react";
 import { TextField } from "@mui/material";
 import SaveAsIcon from "@mui/icons-material/SaveAs";
-
+import moment from "moment";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -39,15 +39,11 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-export default function BasicTable({ rows }) {
+export default function BasicTable({ rows,setStocks }) {
   const [isEdit, setIsEdit] = useState(Array(rows.length).fill(false));
-  const handleDelete = (id) => {
-    axios.post(`/api/stock/delete/${id}`).then(alert("삭제되었습니다."));
-  };
   const [newRows, setNewRows] = useState(rows);
-  const teamId = useRecoilValue(userState).teamId;
 
-  const handleEdit = () => {};
+
   const getCurrentTime = () => {
     const date = new Date();
     const [hour, minute] = date.toTimeString().split(" ")[0].split(":");
@@ -56,15 +52,50 @@ export default function BasicTable({ rows }) {
     return `${year}-${month}-${day}T${hour}:${minute}`;
   };
 
-  const sendEditData = (id) => {
-    let data = newRows[id];
-    data.date = getCurrentTime();
+  const handleDelete = (id) => {
+    axios.post(`/api/stock/delete/${id}`).then(
+    () =>
+    {alert("삭제되었습니다.")
+    window.location.replace("/stock")
+    });
+  };
 
+  const sendEditData = (id, idx) => {
+    const data = { ...newRows[idx], date: getCurrentTime() };
+    console.log("수정한 데이터는", data);
     axios
       .post(`/api/stock/update/${id}`, data)
-      .then(() => alert("수정 완료"))
+      .then(() => {
+        alert("수정 완료")
+        window.location.replace("/stock");
+        const copyNewRows = [...newRows];
+        copyNewRows[idx] = data;
+        setStocks(copyNewRows); // stock 아톰 갱신
+        console.log("콘솔", copyNewRows);
+
+      })
       .catch((err) => console.error(err.message));
   };
+
+      const getTime = (timeString) => {
+      let [date, time] = timeString?.split("T");
+      time = " " + time.replace("-", ":") + ":00";
+      const momentDate = date + time;
+      const [hour, minute, second] = moment(momentDate, "YYYY-MM-DD HH:mm:ss")
+        .subtract(9, "hours")
+        .format()
+        ?.split("+")[0]
+        ?.split("T")[1]
+        ?.split(":") || ['','',''];
+
+      return `${hour} : ${minute}`;
+    };
+
+  function subTime(time) {
+    var realTime = moment(time).utc().format("MM월DD일 HH시:mm분");
+    return realTime;
+  }
+
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="customized table">
@@ -89,10 +120,11 @@ export default function BasicTable({ rows }) {
                   row.name
                 ) : (
                   <TextField
-                    value={row.name}
+                    defaultValue={row.name}
                     onChange={(e) => {
                       let copyRows = [...newRows];
-                      copyRows[idx].name = e.target.value;
+                      let copyRow = { ...copyRows[idx], name: e.target.value };
+                      copyRows[idx] = copyRow;
                       setNewRows(copyRows);
                     }}
                   />
@@ -103,10 +135,11 @@ export default function BasicTable({ rows }) {
                   row.price
                 ) : (
                   <TextField
-                    value={row.price}
+                    defaultValue={row.price}
                     onChange={(e) => {
                       let copyRows = [...newRows];
-                      copyRows[idx].price = e.target.value;
+                      let copyRow = { ...copyRows[idx], price: e.target.value };
+                      copyRows[idx] = copyRow;
                       setNewRows(copyRows);
                     }}
                   />
@@ -117,17 +150,25 @@ export default function BasicTable({ rows }) {
                   row.quantity
                 ) : (
                   <TextField
-                    value={row.quantity}
+                    defaultValue={row.quantity}
                     onChange={(e) => {
                       let copyRows = [...newRows];
-                      copyRows[idx].quantity = e.target.value;
+                      let copyRow = {
+                        ...copyRows[idx],
+                        quantity: e.target.value,
+                      };
+                      copyRows[idx] = copyRow;
                       setNewRows(copyRows);
                     }}
                   />
                 )}
               </StyledTableCell>
               <StyledTableCell align="center">
-                {!isEdit[idx] ? row.date : <TextField value={row.date} disabled />}
+                {!isEdit[idx] ? (
+                  subTime(row.date)
+                ) : (
+                  <TextField defaultValue={row.date} disabled />
+                )}
               </StyledTableCell>
               <StyledTableCell align="center">
                 {!isEdit[idx] ? (
@@ -141,10 +182,10 @@ export default function BasicTable({ rows }) {
                 ) : (
                   <SaveAsIcon
                     onClick={() => {
-                      sendEditData(row.id);
                       let copyIsEdit = [...isEdit];
                       copyIsEdit[idx] = !copyIsEdit[idx];
                       setIsEdit(copyIsEdit);
+                      sendEditData(row.id, idx);
                     }}
                   />
                 )}

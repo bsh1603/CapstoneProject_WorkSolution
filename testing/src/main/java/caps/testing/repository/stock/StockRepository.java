@@ -28,10 +28,10 @@ public interface StockRepository extends JpaRepository<Stock, Long> {
 
     @Modifying
     @Query(value = "UPDATE stock s " +
-            "set s.stock_date = :date, s.stock_price = :price, s.stock_quantity = :quantity " +
+            "set s.stock_name = :name, s.stock_date = :date, s.stock_price = :price, s.stock_quantity = :quantity " +
             "where s.stock_id = :id", nativeQuery = true)
-    void updateStock(@Param("date") Timestamp date, @Param("price") int price,
-                     @Param("quantity") int quantity,@Param("id") Long id);
+    void updateStock(@Param("name") String name, @Param("date") Timestamp date, @Param("price") int price,
+                     @Param("quantity") int quantity, @Param("id") Long id);
 
     @Modifying
     @Query(value = "DELETE FROM stock s where s.stock_id = ?1", nativeQuery = true)

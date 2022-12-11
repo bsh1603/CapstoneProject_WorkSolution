@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,10 +38,17 @@ public class StockService {
         Stock stock = stockRegisterDto.toStock();
         Stock result = stockRepository.save(stock);
 
+        int hour = 9;
+
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis(timestamp.getTime());
+        cal.add(Calendar.HOUR, hour);
+        Timestamp origin = new Timestamp(cal.getTime().getTime());
+
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm");
         String currTime = simpleDateFormat.format(timestamp);
-        stock.setDate(timestamp);
+        stock.setDate(origin);
 
         Team myTeam = teamRepository.findMyTeam(id);
         result.setTeam(myTeam);
@@ -57,7 +65,7 @@ public class StockService {
     //재고 수정
     @Transactional
     public void updateStock(StockUpdateDto stockupdateDto, Long id) {
-        stockRepository.updateStock(stockupdateDto.getDate(), stockupdateDto.getPrice(), stockupdateDto.getQuantity(), id);
+        stockRepository.updateStock(stockupdateDto.getName(), stockupdateDto.getDate(), stockupdateDto.getPrice(), stockupdateDto.getQuantity(), id);
     }
 
     //재고 삭제

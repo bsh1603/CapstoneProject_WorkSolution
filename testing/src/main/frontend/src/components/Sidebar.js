@@ -44,9 +44,13 @@ const data = [
   { icon: <Dns />, label: "근무 조회", navigate: "work" },
   { icon: <People />, label: "팀원 조회", navigate: "member" },
   { icon: <PermMedia />, label: "재고 관리", navigate: "stock" },
-  { icon: <Public />, label: "채팅방", navigate: "chatsetting" },
   { icon: <Public />, label: "출근도장", navigate: "profile" },
 ];
+
+
+const SideColor = styled.div`
+    background : pink;
+`;
 
 const Sidebar = () => {
 
@@ -63,7 +67,7 @@ const Sidebar = () => {
                     <Divider />
                     <Box
                         sx={{
-                            bgcolor: 1 ? "rgb(240,239,239)" : null,
+                            bgcolor: 1 ? "inherit" : null,
                             pb: 1 ? 2 : 0,
                         }}
                     >
@@ -91,6 +95,7 @@ const Sidebar = () => {
                         primaryTypographyProps={{
                             fontSize: 22,
                             fontWeight: "small",
+                            fontFamily: "watermelonsalad"
                         }}
                     />
                     </ListItemButton>

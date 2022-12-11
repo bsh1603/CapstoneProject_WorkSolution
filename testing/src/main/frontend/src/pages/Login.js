@@ -25,13 +25,19 @@ const Login = () => {
           name: response.data.name,
           admin: response.data.admin,
           email : response.data.email,
-          phone : response.data.phone
+          phone : response.data.phone,
+          code : response.data.authentication_code,
         };
         setUser(user);
         setEmail("");
         setPwd("");
         localStorage.setItem("user", JSON.stringify(user));
         console.log(user);
+        // teamId 받아오기
+                axios.get(`/api/member/myteam/${user?.id}`).then((response) => {
+                  const teamId = response.data;
+                  setUser({ ...user, teamId: teamId });
+                });
         alert("로그인 성공");
       })
       .catch(function (error) {
@@ -105,7 +111,10 @@ const Login = () => {
   );
 };
 
-const LoginWrapper = styled.div``;
+const LoginWrapper = styled.div`
+    margin-top : 300px;
+`;
+
 const Wrapper = styled.div`
   max-width: 500px;
   text-align: center;

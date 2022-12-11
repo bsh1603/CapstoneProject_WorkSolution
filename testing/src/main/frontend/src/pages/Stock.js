@@ -6,16 +6,12 @@ import Sidebar from "../components/Sidebar";
 import AddIcon from "@mui/icons-material/Add";
 import { useNavigate } from "react-router-dom";
 import { stockDataState } from "../recoil/selector";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const Stock = () => {
   const navigate = useNavigate();
-  const stock = useRecoilValue(stockDataState)
-
-    useEffect(() => {
-        console.log('Member 마운트')
-        console.log('stock : ', stock);
-      },[])
+  const stock = useRecoilValue(stockDataState);
+  const [stocks, setStocks] = useState(stock);
 
   return (
     <>
@@ -23,12 +19,13 @@ const Stock = () => {
       <Sidebar />
       <div>
         <InputWrapper>
-          <StockTable rows= {stock}/>
+          <StockTable rows={stocks} setStocks={setStocks} />
+          <br />
+          <Add onClick={() => navigate("/stock/modify")}>
+            <AddIcon />
+          </Add>
         </InputWrapper>
       </div>
-      <Add onClick={() => navigate("/stock/modify")}>
-        <AddIcon />
-      </Add>
     </>
   );
 };
@@ -36,17 +33,16 @@ const Stock = () => {
 export default Stock;
 
 const InputWrapper = styled.div`
-  position: sticky;
-  padding-top: 150px;
-  padding-left: 300px;
-  max-width: 1000px;
+  position: relative;
+  margin-top: 150px;
+  margin-left: 300px;
+  max-width: 900px;
   text-align: center;
 `;
 
 const Add = styled.button`
-  position: fixed;
-  bottom: 10%;
-  right: 16rem;
+  position: relative;
+  left: 28em;
   text-align: center;
   width: 100px;
   height: 50px;

@@ -15,9 +15,11 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.common.black,
     color: theme.palette.common.white,
+    fontFamily : "watermelonsalad"
   },
   [`&.${tableCellClasses.body}`]: {
     fontSize: 14,
+    fontFamily : "watermelonsalad"
   },
 }));
 

@@ -48,9 +48,9 @@ const Top = styled.button`
 `;
 
 const InputWrapper = styled.div`
-  position: sticky;
-  padding-top: 150px;
-  padding-left: 300px;
+  position: relative;
+  margin-top: 150px;
+  margin-left: 300px;
   max-width: 1000px;
   text-align: center;
 `;

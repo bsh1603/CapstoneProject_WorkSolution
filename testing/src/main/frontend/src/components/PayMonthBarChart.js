@@ -19,8 +19,8 @@ import { barPayState, userState } from "../recoil/atom";
 import { barPayDataState } from "../recoil/selector";
 
 const BarWrapper = styled.div`
-    width : 650px;
-    height : 800px;
+    height : 300px;
+    width : 350px;
 `;
 
 const PayMonthBarChart = () => {
@@ -38,9 +38,7 @@ const PayMonthBarChart = () => {
 
   return (
     <BarWrapper>
-
       <Bar data={data} ref={chartRef} />
-
     </BarWrapper>
   );
 };

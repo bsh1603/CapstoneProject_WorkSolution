@@ -19,7 +19,7 @@ const ChatRoom = (props) => {
     const nowScrollY = chatDiv.scrollTop;
 
 
-    
+
 
     const [userData, setUserData] = useState({
         username: props.sender_name,
@@ -33,7 +33,7 @@ const ChatRoom = (props) => {
       console.log("=========== use effect =============")
       console.log(props.sender_name);
       console.log(props.team_name);
-      
+
       CallMessage(props.team_id,userData.username,userData.message)
         registerUser()
          sleep(500);
@@ -45,7 +45,7 @@ const ChatRoom = (props) => {
         stompClient.connect({},onConnected, onError);
     }
 
-   
+
 
     const onConnected = () => {
         setUserData({...userData,"connected": true});
@@ -84,7 +84,7 @@ const ChatRoom = (props) => {
                 break;
         }
     }
-    
+
     const onPrivateMessage = (payload)=>{
         console.log(payload);
         var payloadData = JSON.parse(payload.body);
@@ -101,7 +101,7 @@ const ChatRoom = (props) => {
 
     const onError = (err) => {
         console.log(err);
-        
+
     }
 
     const handleMessage =(event)=>{
@@ -140,7 +140,7 @@ const ChatRoom = (props) => {
             message: userData.message,
             status:"MESSAGE"
           };
-          
+
           if(userData.username !== tab){
             privateChats.get(tab).push(chatMessage);
             setPrivateChats(new Map(privateChats));
@@ -220,7 +220,7 @@ const ChatRoom = (props) => {
 
             }).catch((err)=>{console.log(err)})
 
-        
+
     }
 
     function messagePost(firstid ,sender , content){
@@ -263,8 +263,8 @@ const ChatRoom = (props) => {
                         </li>
 
                     ))}
-                
-                    
+
+
                 </ul>
                 {/* --------------------- */}
                 {/* 메세지 실제로 보내는 부분 */}

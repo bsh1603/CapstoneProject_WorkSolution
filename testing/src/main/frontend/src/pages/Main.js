@@ -3,8 +3,8 @@ import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
 import WorkChart from "../components/WorkChart";
 import BarChart from "../components/BarChart";
-import WorkDayChart from "../components/WorkDayChart"
-import PayMonthBarChart from "../components/PayMonthBarChart"
+import WorkDayChart from "../components/WorkDayChart";
+import PayMonthBarChart from "../components/PayMonthBarChart";
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
@@ -22,7 +22,7 @@ import Grid from '@mui/material/Unstable_Grid2';
 import styled from "styled-components";
 import axios from "axios";
 import { useState } from "react";
-import { userState, isWorkingState } from "../recoil/atom";
+import { userState, isWorkingState, workState } from "../recoil/atom";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { useEffect } from "react";
 import Stack from '@mui/material/Stack';
@@ -51,6 +51,14 @@ const Main = () => {
     if(day.length === 1) day = "0" + day;
     return `${year}-${month}-${day}T${hour}:${minute}`;
   };
+
+  function getNowTime() {
+      const date = new Date();
+      const [hour, minute] = date.toTimeString().split(" ")[0].split(":");
+      let [year, month, day] = date.toLocaleString().split(". ");
+      if (day.length === 1) day = "0" + day;
+      return `${year}-${month}-${day}`;
+    }
 
   const handleStart = () => {
     const date = new Date();
@@ -108,6 +116,7 @@ const Main = () => {
       .then((response) => {
         setIsWorking(false);
         alert("근무를 종료합니다.");
+        window.location.replace("/profile")
       })
       .catch((err) => console.error(err.message));
   };
@@ -119,52 +128,42 @@ const Main = () => {
         setUser(cache);
       }
 
-      axios.get(`/api/member/myteam/${user?.id}`).then((response) => {
-        const teamId = response.data;
-        setUser({ ...user, teamId: teamId });
-      });
   }, []);
 
   return (
     <>
+      <Hello>
       <Header />
       <Sidebar />
-      <div>
+      </Hello>
       <InputWrapper>
-        <Grid container spacing = {7}>
-           <Grid xs = {4}>
-                <Card sx={{ maxWidth: 1500 }, {flexDirection : 'row'}}>
+        <Grid container spacing = {11}>
+           <Grid xs = {4.5}>
+                <Card sx={{ maxWidth: 400 }, {flexDirection : 'row'}}>
                     <CardContent>
                         <Typography gutterBottom variant="h5" component="div">
-                            <Start onClick = {handleStart} disabled={isWorking}>
-                            <PlayCircleOutlined />
+                            <Start onClick = {handleStart} disabled={isWorking} isWorking={isWorking}>
+                            <PlayCircleOutlined /> <br/>
                             근무시작
                             </Start>
                         </Typography>
                     </CardContent>
                 </Card>
             </Grid>
-        <Grid xs = {4}>
-            <Card sx={{ maxWidth: 1500 }, {flexDirection : 'row'}}>
-                <CardContent>
-                    <Typography gutterBottom  variant="h5" component="div">
-                        <End onClick = {handleEnd}>
-                        <StopOutlined />
-                        근무종료
-                        </End>
-                    </Typography>
-                </CardContent>
-            </Card>
-        </Grid>
-        <Grid xs = {4}>
-            <Card sx={{ maxWidth: 1500 }, {flexDirection : 'row'}}>
-                <CardContent>
-                    <Typography gutterBottom variant="h5" component="div">
-                        <Sales src = {sales} />
-                    </Typography>
-                </CardContent>
-            </Card>
-        </Grid>
+            <Grid xs = {4.5}>
+                <Card sx={{ maxWidth: 400 }, {flexDirection : 'row'}}>
+                    <CardContent>
+                        <Typography gutterBottom  variant="h5" component="div">
+                            <End onClick = {handleEnd}>
+                            <StopOutlined /> <br/>
+                            근무종료
+                            </End>
+                        </Typography>
+                    </CardContent>
+                 </Card>
+            </Grid>
+            <Grid xs = {2}>
+            </Grid>
         </Grid>
         </InputWrapper>
         <div>
@@ -172,22 +171,32 @@ const Main = () => {
             <br/>
             <br/>
         </div>
-        <Grid container spacing = {2}>
-        <Grid xs = {5.5}>
-        <GraphWrapper>
-            <PayMonthBarChart />
-        </GraphWrapper>
+        <Grid container rowSpacing = {4} columnSpacing={{ xs:1, sm:2, md:3}}>
+            <Grid xs = {6}>
+                <GraphWrapper>
+                <h2> 일별 일한 시간 </h2>
+                            <WorkChart />
+                </GraphWrapper>
+            </Grid>
+            <Grid xs = {6}>
+                <Graph2Wrapper>
+                <h2> 월별 일한 시간 </h2>
+                            <BarChart />
+                </Graph2Wrapper>
+            </Grid>
+            <Grid xs = {6}>
+                <Graph3Wrapper>
+                <h2> 요일별 일한 시간 </h2>
+                            <WorkDayChart />
+                </Graph3Wrapper>
+            </Grid>
+            <Grid xs = {6}>
+                <Graph4Wrapper>
+                <h2> 월별 월급 </h2>
+                        <PayMonthBarChart />
+                </Graph4Wrapper>
+            </Grid>
         </Grid>
-        <Grid xs = {5.5}>
-        <Graph2Wrapper>
-            <BarChart />
-        </Graph2Wrapper>
-        </Grid>
-        <Grid xs = {2}>
-            분할용
-        </Grid>
-        </Grid>
-      </div>
     </>
   );
 };
@@ -207,16 +216,25 @@ const Start = styled.button`
         content : "";
         position: absolute;
         top : 0;
-        left : 0;
+        left : 2%;
         width : 30%;
         height : 100%;
         background: rgba(0,0,0,.1);
         border-radius: 30px;
     }
 
-    font-size : 2.7rem;
-    font-family: 'Rajdhani'
+    font-size : 3.0rem;
+    font-family: 'watermelonsalad';
+    font-weight : bold;
+
+    ${props =>
+        props.isWorking &&
+        `
+          background: black;
+          font-color: white;
+        `};
 `;
+
 
 const End = styled.button`
     width: 300px;
@@ -231,65 +249,61 @@ const End = styled.button`
             content : "";
             position: absolute;
             top : 0;
-            left : 35%;
+            left : 42%;
             width : 30%;
             height : 100%;
             background: rgba(0,0,0,.1);
             border-radius: 30px;
         }
 
-    font-size : 2.7rem;
-    font-family: 'Rajdhani'
+    font-size : 3.0rem;
+    font-family: 'watermelonsalad';
+    font-weight : bold;
 `;
 
 const InputWrapper = styled.div`
-  position : fixed;
+  position : absolute;
   text-align: center;
   margin-top : 150px;
   margin-left : 300px;
   background : white;
   width : 1300px;
-
-//const BtnWrapper = styled.div`
-//  position : fixed;
-//  max-width: 1000px;
-//  text-align: center;
-//  margin-top : 180px;
-//  margin-left: 360px;
-//`;
-//
-//const Btn2Wrapper = styled.div`
-//  position : fixed;
-//  max-width: 1000px;
-//  text-align: center;
-//  margin-top : 180px;
-//  margin-left: 760px;
-//`;
+`;
 
 const GraphWrapper = styled.div`
-  position : fixed;
-  margin-top : 340px;
-  margin-left : 300px;
+  position : relative;
+  margin-top : 370px;
+  margin-left : 350px;
+  font-family : "watermelonsalad";
 `;
 
 const Graph2Wrapper = styled.div`
-  position : fixed;
-  margin-top : 340px;
+  position : relative;
+  margin-top : 370px;
   margin-left : 150px;
+  font-family : "watermelonsalad";
 `;
 
 
-const NavWrapper = styled.div`
- padding-top : 150px;
+const Graph3Wrapper = styled.div`
+  position : relative;
+  margin-top : 0px;
+  margin-left : 400px;
+  font-family : "watermelonsalad";
 `;
 
-//        <IconButton aria-label="work start" size = "large" color="success">
-//            <PlayCircleOutlined />
-//        </IconButton>
+const Graph4Wrapper = styled.div`
+  position : relative;
+  margin-top : 10px;
+  margin-left : 150px;
+  font-family : "watermelonsalad";
+`;
 
-//
-//    if (!user.id) {
-//      const cache = JSON.parse(localStorage.getItem("user"));
-//      if (!cache) navigate("/login");
-//      setUser(cache);
-//    }
+const Hello = styled.div`
+  position : absolute;
+`;
+
+const test = styled.div`
+  font-family : "watermelonsald";
+`;
+

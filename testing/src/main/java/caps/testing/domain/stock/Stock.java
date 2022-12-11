@@ -31,8 +31,7 @@ public class Stock {
     @JsonBackReference
     private Team team;
 
-    @JsonFormat(pattern = "yyyy-MM-dd'T'HH-mm", timezone = "Asia/Seoul")
-    @CreatedDate
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm", timezone = "Asia/Seoul")
     @Column(name = "STOCK_DATE")
     private Timestamp date;
 

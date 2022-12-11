@@ -7,82 +7,84 @@ import axios from "axios";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import styled from "styled-components";
-import EditIcon from '@mui/icons-material/Edit';
+import EditIcon from "@mui/icons-material/Edit";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRecoilValue, useRecoilState } from "recoil";
-import { userState, memberState} from "../recoil/atom";
+import { userState, memberState, workState } from "../recoil/atom";
 import { useEffect } from "react";
 
-
 const Profile = () => {
+  const user = useRecoilValue(userState);
+  const [member, setMember] = useRecoilState(memberState);
+  const [work, setWork] = useRecoilState(workState);
+  const memberUser = JSON.parse(localStorage.getItem("user"));
 
-    const user = useRecoilValue(userState);
-    const [member, setMember] = useRecoilState(memberState);
-    const memberUser = JSON.parse(localStorage.getItem("user"));
+  useEffect(() => {
+    axios.get(`/api/member/my/${memberUser.id}`).then((response) => {
+      setMember(response.data);
+      console.log(member);
+    });
 
-    useEffect(() => {
-      axios.get(`/api/member/my/${memberUser.id}`).then((response) => {
-        setMember(response.data);
-        console.log(member);
+    return () => {
+      setMember({
+        id: undefined,
+        name: undefined,
+        admin: undefined,
+        email: undefined,
+        phone: undefined,
       });
-    }, []);
+      console.log('member초기화 완료');
+    }
+  }, []);
 
   return (
-      <>
-        <Header />
-        <Sidebar />
-        <div>
-          <InputWrapper>
-              <div>
-                <MediaCard role = {user.admin} />
-              </div>
-              <div>
-              </div>
-          </InputWrapper>
-        </div>
-      </>
-    );
+    <>
+      <Header />
+      <Sidebar />
+      <div>
+        <InputWrapper>
+          <div>
+            <MediaCard role={user.admin} />
+          </div>
+          <div></div>
+        </InputWrapper>
+      </div>
+    </>
+  );
 };
-
 
 export default Profile;
 
 const Top = styled.button`
-    position : fixed;
-    bottom : 20%;
-    right : 2rem;
+  position: fixed;
+  bottom: 20%;
+  right: 2rem;
 
-    width: 100px;
-    height: 50px;
-    color : white;
-    border : #a673ff;
-    border-radius: 50px;
-    background : black
-    ;
+  width: 100px;
+  height: 50px;
+  color: white;
+  border: #a673ff;
+  border-radius: 50px;
+  background: black;
 `;
 
 const InputWrapper = styled.div`
-  position : relative;
+  position: relative;
   text-align: center;
-  margin-top : 150px;
-  margin-left : 300px;
-  background : white;
-  width : 1300px;
-//  border : 1px solid;
-//  border-color : red;
+  margin-top: 150px;
+  margin-left: 400px;
+  background: white;
+  width: 1300px;
+  //  border : 1px solid;
+  //  border-color : red;
 `;
 
 const BtnWrapper = styled.div`
   top: 50%;
-  left : 30rem;
-  max-width : 600px;
+  left: 30rem;
+  max-width: 600px;
 `;
-
-const NavWrapper = styled.div`
- padding-top : 150px;
-`;
-
 
 //  const viewProfile = () => {
 //    const userData = {
