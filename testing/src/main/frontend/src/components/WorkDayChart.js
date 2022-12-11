@@ -10,8 +10,8 @@ import { doughnutState, userState } from "../recoil/atom";
 import { doughnutDataState } from "../recoil/selector";
 
 const ChartWrapper = styled.div`
-    height : 300px;
-    width : 300px;
+    height : 500px;
+    width : 600px;
 `
 const WorkDayChart = () => {
   ChartJS.register(ArcElement, Tooltip, Legend);

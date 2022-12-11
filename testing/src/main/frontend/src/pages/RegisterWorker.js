@@ -3,6 +3,10 @@ import Button from "@mui/material/Button";
 import styled from "styled-components";
 import useInput from "../hooks/useInput";
 import axios from "axios";
+import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
+import Card from '@mui/material/Card';
+import verification from "../assets/verification.png"
 import { useNavigate } from "react-router-dom";
 
 const RegisterWorker = () => {
@@ -59,6 +63,15 @@ const RegisterWorker = () => {
       });
   };
   return (
+      <Box sx = {{width: '100%' }}>
+          <Grid container rowSpacing = {1}>
+              <Grid xs = {6}>
+                  <Register
+                      src = {verification}>
+                  </Register>
+                                  <Logo> ALBA24 </Logo>
+              </Grid>
+              <Grid xs = {6}>
     <LoginWrapper>
       <InputWrapper>
         <TextField
@@ -137,23 +150,27 @@ const RegisterWorker = () => {
       </InputWrapper>
 
       <InputWrapper>
-        <Button
+        <Start
           variant="contained"
-          fullWidth={true}
-          size="large"
           onClick={() => {
             handleRegister();
             navigate("/login");
           }}
         >
           회원가입
-        </Button>
+        </Start>
       </InputWrapper>
     </LoginWrapper>
+    </Grid>
+    </Grid>
+    </Box>
   );
 };
 
-const LoginWrapper = styled.div``;
+const LoginWrapper = styled.div`
+    margin-top:200px;
+`;
+
 const InputWrapper = styled.div`
   max-width: 500px;
   text-align: center;
@@ -163,5 +180,40 @@ const InputWrapper = styled.div`
 const BtnWrapper = styled.div`
   margin-top: 20px;
 `;
+
+const Register = styled.img`
+    width : 800px;
+    height : 1000px;
+    margin-left : 300px;
+    text-align : center;
+`
+
+const Start = styled.button`
+
+    width: 500px;
+    height: 45px;
+    color : white;
+    border : #a673ff;
+    background : black;
+    border-radius: 10px;
+    cursor : pointer;
+
+    font-size : 1.3rem;
+    font-family: 'watermelonsalad';
+    font-weight : bold;
+`;
+
+const Logo = styled.div`
+  position: relative;
+  max-width : 300px;
+  left : 53%;
+  background: white;
+  border: white;
+  cursor: pointer;
+  font-size: 3rem;
+  letter-spacing: 5px;
+  font-family: "watermelonsalad";
+`;
+
 
 export default RegisterWorker;

@@ -137,9 +137,8 @@ const Main = () => {
       <Sidebar />
       </Hello>
       <InputWrapper>
-        <Grid container spacing = {11}>
-           <Grid xs = {4.5}>
-                <Card sx={{ maxWidth: 400 }, {flexDirection : 'row'}}>
+        <Grid container spacing = {1}>
+           <Grid xs = {8}>
                     <CardContent>
                         <Typography gutterBottom variant="h5" component="div">
                             <Start onClick = {handleStart} disabled={isWorking} isWorking={isWorking}>
@@ -148,10 +147,8 @@ const Main = () => {
                             </Start>
                         </Typography>
                     </CardContent>
-                </Card>
             </Grid>
-            <Grid xs = {4.5}>
-                <Card sx={{ maxWidth: 400 }, {flexDirection : 'row'}}>
+            <Grid xs = {4}>
                     <CardContent>
                         <Typography gutterBottom  variant="h5" component="div">
                             <End onClick = {handleEnd}>
@@ -160,9 +157,6 @@ const Main = () => {
                             </End>
                         </Typography>
                     </CardContent>
-                 </Card>
-            </Grid>
-            <Grid xs = {2}>
             </Grid>
         </Grid>
         </InputWrapper>
@@ -204,8 +198,9 @@ export default Main;
 
 const Start = styled.button`
 
-    width: 300px;
-    height: 180px;
+    margin-left : 100px;
+    width: 350px;
+    height: 200px;
     color : black;
     border : #a673ff;
     background : lightblue;
@@ -216,9 +211,9 @@ const Start = styled.button`
         content : "";
         position: absolute;
         top : 0;
-        left : 2%;
-        width : 30%;
-        height : 100%;
+        left : 23%;
+        width : 28%;
+        height : 95%;
         background: rgba(0,0,0,.1);
         border-radius: 30px;
     }
@@ -230,15 +225,16 @@ const Start = styled.button`
     ${props =>
         props.isWorking &&
         `
-          background: black;
+          background: blue;
           font-color: white;
         `};
 `;
 
 
 const End = styled.button`
-    width: 300px;
-    height: 180px;
+
+    width: 350px;
+    height: 200px;
     color : black;
     border : #a673ff;
     background : pink;
@@ -249,9 +245,9 @@ const End = styled.button`
             content : "";
             position: absolute;
             top : 0;
-            left : 42%;
-            width : 30%;
-            height : 100%;
+            left : 69.5%;
+            width : 28%;
+            height : 95%;
             background: rgba(0,0,0,.1);
             border-radius: 30px;
         }
@@ -278,9 +274,9 @@ const GraphWrapper = styled.div`
 `;
 
 const Graph2Wrapper = styled.div`
-  position : relative;
+  position : absolute;
   margin-top : 370px;
-  margin-left : 150px;
+  margin-left : 0px;
   font-family : "watermelonsalad";
 `;
 
@@ -288,14 +284,14 @@ const Graph2Wrapper = styled.div`
 const Graph3Wrapper = styled.div`
   position : relative;
   margin-top : 0px;
-  margin-left : 400px;
+  margin-left : 390px;
   font-family : "watermelonsalad";
 `;
 
 const Graph4Wrapper = styled.div`
-  position : relative;
-  margin-top : 10px;
-  margin-left : 150px;
+  position : absolute;
+  margin-top : 0px;
+  margin-left : 0px;
   font-family : "watermelonsalad";
 `;
 

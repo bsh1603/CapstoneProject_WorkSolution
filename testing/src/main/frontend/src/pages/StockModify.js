@@ -36,8 +36,7 @@ const ProfileModify = () => {
         .then(function (response) {
             // 응답 처리하기
             console.log(stock);
-            alert("재고 추가 성공")
-            window.location.replace("/stock");
+            alert("재고 추가 성공");
         })
         .catch(function (error) {
             console.log(error);
@@ -49,7 +48,7 @@ const ProfileModify = () => {
   <Header />
   <Sidebar />
   <div>
-    <Wrapper>>
+    <Wrapper>
       <InputWrapper>
         <TextField
           label="이름"
@@ -77,17 +76,14 @@ const ProfileModify = () => {
         />
       </InputWrapper>
       <InputWrapper>
-        <Button
-          variant="contained"
-          fullWidth={true}
-          size="large"
+        <Start
           onClick={() => {
             handleStock();
             navigate("/stock");
           }}
         >
           재고 추가
-        </Button>
+        </Start>
       </InputWrapper>
       </Wrapper>
    </div>
@@ -100,13 +96,23 @@ const Wrapper = styled.div`
 `
 
 const InputWrapper = styled.div`
-  max-width: 600px;
+  max-width: 400px;
   text-align: center;
   margin: 30px auto;
 `;
 
-const BtnWrapper = styled.div`
-  margin-top: 20px;
+const Start = styled.button`
+    width: 400px;
+    height: 50px;
+    color : black;
+    border : #a673ff;
+    background : lightblue;
+    border-radius: 30px;
+    cursor : pointer;
+
+    font-size : 1.3rem;
+    font-family: 'watermelonsalad';
+    font-weight : bold;
 `;
 
 export default ProfileModify;

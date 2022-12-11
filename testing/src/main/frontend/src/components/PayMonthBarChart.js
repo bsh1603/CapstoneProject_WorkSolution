@@ -19,8 +19,8 @@ import { barPayState, userState } from "../recoil/atom";
 import { barPayDataState } from "../recoil/selector";
 
 const BarWrapper = styled.div`
-    height : 300px;
-    width : 350px;
+    height : 500px;
+    width : 700px;
 `;
 
 const PayMonthBarChart = () => {

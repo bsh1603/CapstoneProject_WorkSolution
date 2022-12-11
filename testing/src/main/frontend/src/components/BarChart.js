@@ -19,8 +19,8 @@ import { barState, userState } from "../recoil/atom";
 import { barDataState } from "../recoil/selector";
 
 const ChartWrapper = styled.div`
-    width : 400px;
-    height : 200px;
+    width : 700px;
+    height : 500px;
 `
 const BarChart = () => {
   const data = useRecoilValue(barDataState);
